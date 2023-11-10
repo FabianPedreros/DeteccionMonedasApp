@@ -5,8 +5,13 @@ import numpy as np
 from ultralytics import YOLO
 from collections import Counter
 
-!sudo apt-get update
-!sudo apt-get install -y libgl1-mesa-glx
+import subprocess
+
+# Ejecutar 'sudo apt-get update'
+subprocess.run(['sudo', 'apt-get', 'update'])
+
+# Ejecutar 'sudo apt-get install -y libgl1-mesa-glx'
+subprocess.run(['sudo', 'apt-get', 'install', '-y', 'libgl1-mesa-glx'])
 
 model = YOLO("best.pt")
 
