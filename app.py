@@ -15,10 +15,10 @@ subprocess.run(['sudo', 'apt-get', 'install', '-y', 'libgl1-mesa-glx'])
 
 model = YOLO("best.pt")
 
-st.title('Deteccion de plantas de tomate')
-st.header('Aplicacion para la deteccion de plantas de tomate')
+st.title('Deteccion de monedas')
+st.header('Aplicacion para la deteccion de monedas')
 
-st.write('Carga una imagen desde tu dispositivo para detectar si hay una planta de tomate')
+st.write('Carga una imagen desde tu dispositivo para detectar las monedas y calcular el monto total')
 
 # Cargar la imagen desde la interfaz de la cámara
 foto = st.file_uploader("Cargar imagen", type=["jpg", "jpeg", "png"])
@@ -29,7 +29,7 @@ if foto is not None:
     img = np.array(img)
     
     # Realizar la predicción con YOLO
-    results = model.predict(img, imgsz=412, conf=0.5)
+    results = model.predict(img, imgsz=416, conf=0.5)
     
     # Mostrar la imagen original con las cajas detectadas
     st.image(results[0].plot(labels=True), caption="Resultado de la detección", use_column_width=True)
@@ -40,18 +40,26 @@ if foto is not None:
     for result in results:
         clases_halladas.extend(result.boxes.cls.numpy())
 
-    st.write(clases_halladas)
+    #st.write(results)
+
+    #st.write(clases_halladas)
 
     mapeo = {
-        0: 'Planta de tomate',
-        1: 'Planta de albahaca',
-        2: 'Planta de lechuga'
+        0: 100, 
+        1: 1000, 
+        2: 200, 
+        3: 50, 
+        4: 500
     }
 
     # Utiliza Counter para contar las ocurrencias de cada elemento en el arreglo
     conteo = Counter(clases_halladas)
 
+    montoTotal = 0
     # Imprime el resultado
     for clase, cantidad in conteo.items():
         nombre_clase = mapeo.get(clase, f'Clase Desconocida ({clase})')
-        st.write(f"La cantidad de {nombre_clase} detectadas es: {cantidad}")
+        montoTotal = montoTotal + (nombre_clase*cantidad)
+        st.write(f"La cantidad de monedas de **${nombre_clase}** pesos detectadas es: **{cantidad}**")
+
+    st.write(f"El monto de las monedas detectadas es de **${montoTotal}** pesos colombianos")
