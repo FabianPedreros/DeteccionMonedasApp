@@ -5,6 +5,9 @@ import numpy as np
 from ultralytics import YOLO
 from collections import Counter
 
+!sudo apt-get update
+!sudo apt-get install -y libgl1-mesa-glx
+
 model = YOLO("best.pt")
 
 st.title('Deteccion de plantas de tomate')
