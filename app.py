@@ -13,7 +13,8 @@ import subprocess
 # Ejecutar 'sudo apt-get install -y libgl1-mesa-glx'
 #subprocess.run(['sudo', 'apt-get', 'install', '-y', 'libgl1-mesa-glx'])
 
-model = YOLO("best.pt")
+#model = YOLO("best.pt")
+model = YOLO("bestMonedas.pt")
 
 st.title('Deteccion de monedas')
 st.header('Aplicacion para la deteccion de monedas')
